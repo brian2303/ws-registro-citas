@@ -26,27 +26,26 @@ public class DoctorController {
 	private DoctorService doctorService;
 	
 	@PostMapping
-	public ResponseEntity<?> create(@RequestBody Doctor doctor){
+	public ResponseEntity<Doctor> create(@RequestBody Doctor doctor){
 		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctor));
 	}
 	
 	@GetMapping
 	public List<Doctor> readAll(){
-		List<Doctor> doctors = doctorService.findAll();
-		return doctors;
+		return doctorService.findAll();
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<?> read(@PathVariable Integer id) {
+	public ResponseEntity<Doctor> read(@PathVariable Integer id) {
 		Optional<Doctor> oDoctor = doctorService.findById(id);
 		if(!oDoctor.isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
-		return ResponseEntity.ok(oDoctor);
+		return ResponseEntity.ok(oDoctor.get());
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> update(@RequestBody Doctor doctorDetails,@PathVariable Integer id){
+	public ResponseEntity<Doctor> update(@RequestBody Doctor doctorDetails,@PathVariable Integer id){
 		Optional<Doctor> doctor = doctorService.findById(id);
 		if(!doctor.isPresent()) {
 			return ResponseEntity.notFound().build();
@@ -64,7 +63,7 @@ public class DoctorController {
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<?> delete (@PathVariable Integer id){
+	public ResponseEntity<Object> delete (@PathVariable Integer id){
 		if(!doctorService.findById(id).isPresent()) {
 			return ResponseEntity.notFound().build();
 		}
