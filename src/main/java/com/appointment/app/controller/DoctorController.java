@@ -24,21 +24,41 @@ public class DoctorController {
 	@Autowired
 	private DoctorService doctorService;
 	
+	/**
+	 * 
+	 * @param doctorDTO datos que seran transformados a un entity para finalmente persistir la información
+	 * @return un DoctorDTO que contiene unicamente la información necesaria para mostrar en la vista
+	 */
 	@PostMapping
 	public ResponseEntity<DoctorDTO>  create(@RequestBody DoctorDTO doctorDTO){
 		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctorDTO)); 
 	}
-	
+	/**
+	 * 
+	 * @return una lista de todos los doctores previamente transformadas a DoctorDTO
+	 * con la finalidad de devolver unicamente la información necesaria por doctor
+	 */
 	@GetMapping
 	public ResponseEntity<List<DoctorDTO>> readAll(){
 		return ResponseEntity.ok().body(doctorService.findAll());
 	}
 	
+	/**
+	 * 
+	 * @param id utilizado para buscar un entity concreta
+	 * @return un DoctorDTO transformado desde el servicio
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<DoctorDTO> read(@PathVariable Integer id) {
 		return ResponseEntity.ok(doctorService.findById(id));
 	}
 	
+	/**
+	 * 
+	 * @param doctorDetails detalles que actualizaran el entity
+	 * @param id utilizado para buscar el entity concreto a actualizar
+	 * @return un DoctorDTO actualizado con los datos necesarios
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<DoctorDTO> update(@RequestBody DoctorDTO doctorDetails,@PathVariable Integer id){
 			DoctorDTO doctor = doctorService.findById(id);
@@ -54,7 +74,10 @@ public class DoctorController {
 		
 	}
 	
-	
+	/**
+	 * 
+	 * @param id utilizado para eliminar un entity concreto
+	 */
 	@DeleteMapping("/{id}")
 	public void delete (@PathVariable Integer id){
 		doctorService.deleteById(id);

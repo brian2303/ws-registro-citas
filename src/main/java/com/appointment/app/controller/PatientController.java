@@ -25,21 +25,40 @@ public class PatientController {
 	@Autowired
 	private PatientService patientService;
 	
+	/**
+	 * 
+	 * @param patientDTO información para generar un nuevo entity que posteriormente sera persistido
+	 * @return un PatientDTO que se transforma apartir de la entidad persistida.
+	 */
 	@PostMapping
 	public ResponseEntity<PatientDTO> create(@RequestBody PatientDTO patientDTO){
 		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patientDTO));
 	}
-	
+	/**
+	 * 
+	 * @return una lista de todos los pacientes previamente transformadas a PatientDTO
+	 * con la finalidad de devolver unicamente la información necesaria por paciente
+	 */
 	@GetMapping
 	public ResponseEntity<List<PatientDTO>> readAll(){
 		return ResponseEntity.ok().body(patientService.findAll()) ;
 	}
 	
+	/**
+	 * 
+	 * @param id utilizado para buscar una entitdad concreta
+	 * @return un PatientDTO que se genera en el servicio luego de buscarl el entity por id
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<PatientDTO> read(@PathVariable Integer id) {
 		return ResponseEntity.ok(patientService.findById(id));
 	}
-	
+	/**
+	 * 
+	 * @param patientDetails detalles que se utilizan para actualizar la entidad 
+	 * @param id utilizado para buscar la entidad a actualizar
+	 * @return un PatientDTO el cual tendra la información actualizada
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<PatientDTO> update(@RequestBody Patient patientDetails,@PathVariable Integer id){
 			PatientDTO patient = patientService.findById(id);
@@ -52,7 +71,10 @@ public class PatientController {
 			patient.setDateOfBirth(patientDetails.getDateOfBirth());
 			return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patient));
 	}
-	
+	/**
+	 * 
+	 * @param id utilizado para eliminar una entidad concreta
+	 */
 	@DeleteMapping("/{id}")
 	public void delete (@PathVariable Integer id){
 		patientService.deleteById(id);

@@ -7,6 +7,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * 
+ * @author glzs
+ * DTO utilizado para devolver unicamente los datos necesarios
+ *	para la solicitud de pacientes
+ */
 @Getter
 @Setter
 @NoArgsConstructor

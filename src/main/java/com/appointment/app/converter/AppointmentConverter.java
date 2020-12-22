@@ -20,7 +20,6 @@ public class AppointmentConverter implements Converter<Appointment, AppointmentD
 	@Autowired
 	PatientConverter patientConverter;
 	
-	
 	@Override
 	public Appointment fromDTO(AppointmentDTO dto) {
 		Appointment appointment = new Appointment();

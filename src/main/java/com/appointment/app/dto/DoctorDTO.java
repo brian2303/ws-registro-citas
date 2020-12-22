@@ -6,7 +6,14 @@ import java.math.BigDecimal;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+/**
+ * 
+ * @author glzs
+ *  DTO utilizado para devolver unicamente los datos necesarios
+ *	para los doctores
+ */
+@Getter 
+@Setter
 public class DoctorDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
