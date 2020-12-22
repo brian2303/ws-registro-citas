@@ -1,20 +1,19 @@
 package com.appointment.app.service;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.appointment.app.entity.Patient;
+import com.appointment.app.dto.PatientDTO;
 
 @Service
 public interface PatientService {
 	
-	public List<Patient> findAll();
+	public List<PatientDTO> findAll();
 	
-	public Optional<Patient> findById(Integer id);
+	public PatientDTO findById(Integer id);
 	
-	public Patient save(Patient patient);
+	public PatientDTO save(PatientDTO patientDTO);
 	
 	public void deleteById(Integer id);
 }

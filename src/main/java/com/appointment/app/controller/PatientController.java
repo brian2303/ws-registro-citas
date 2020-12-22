@@ -1,7 +1,6 @@
 package com.appointment.app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.appointment.app.dto.PatientDTO;
 import com.appointment.app.entity.Patient;
 import com.appointment.app.service.PatientService;
 
@@ -26,46 +26,35 @@ public class PatientController {
 	private PatientService patientService;
 	
 	@PostMapping
-	public ResponseEntity<Patient> create(@RequestBody Patient patient){
-		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patient));
+	public ResponseEntity<PatientDTO> create(@RequestBody PatientDTO patientDTO){
+		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patientDTO));
 	}
 	
 	@GetMapping
-	public List<Patient> readAll(){
-		return patientService.findAll();
+	public ResponseEntity<List<PatientDTO>> readAll(){
+		return ResponseEntity.ok().body(patientService.findAll()) ;
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Patient> read(@PathVariable Integer id) {
-		Optional<Patient> oPatient = patientService.findById(id);
-		if(!oPatient.isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(oPatient.get());
+	public ResponseEntity<PatientDTO> read(@PathVariable Integer id) {
+		return ResponseEntity.ok(patientService.findById(id));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Patient> update(@RequestBody Patient patientDetails,@PathVariable Integer id){
-		Optional<Patient> patient = patientService.findById(id);
-		if(!patient.isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
-		patient.get().setName(patientDetails.getName());
-		patient.get().setLastname(patientDetails.getLastname());
-		patient.get().setAffiliation(patientDetails.getAffiliation());
-		patient.get().setMedicalHistory(patientDetails.getMedicalHistory());
-		patient.get().setIdentificationType(patientDetails.getIdentificationType());
-		patient.get().setIdentification(patientDetails.getIdentification());
-		patient.get().setDateOfBirth(patientDetails.getDateOfBirth());
-		return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patient.get()));
+	public ResponseEntity<PatientDTO> update(@RequestBody Patient patientDetails,@PathVariable Integer id){
+			PatientDTO patient = patientService.findById(id);
+			patient.setName(patientDetails.getName());
+			patient.setLastname(patientDetails.getLastname());
+			patient.setAffiliation(patientDetails.getAffiliation());
+			patient.setMedicalHistory(patientDetails.getMedicalHistory());
+			patient.setIdentificationType(patientDetails.getIdentificationType());
+			patient.setIdentification(patientDetails.getIdentification());
+			patient.setDateOfBirth(patientDetails.getDateOfBirth());
+			return ResponseEntity.status(HttpStatus.CREATED).body(patientService.save(patient));
 	}
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete (@PathVariable Integer id){
-		if(!patientService.findById(id).isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
+	public void delete (@PathVariable Integer id){
 		patientService.deleteById(id);
-		return ResponseEntity.ok().build();
 	}
 }

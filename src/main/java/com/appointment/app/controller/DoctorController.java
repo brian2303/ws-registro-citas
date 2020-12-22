@@ -1,7 +1,6 @@
 package com.appointment.app.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.appointment.app.entity.Doctor;
+import com.appointment.app.dto.DoctorDTO;
 import com.appointment.app.service.DoctorService;
 
 @RestController
@@ -26,49 +25,39 @@ public class DoctorController {
 	private DoctorService doctorService;
 	
 	@PostMapping
-	public ResponseEntity<Doctor> create(@RequestBody Doctor doctor){
-		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctor));
+	public ResponseEntity<DoctorDTO>  create(@RequestBody DoctorDTO doctorDTO){
+		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctorDTO)); 
 	}
 	
 	@GetMapping
-	public List<Doctor> readAll(){
-		return doctorService.findAll();
+	public ResponseEntity<List<DoctorDTO>> readAll(){
+		return ResponseEntity.ok().body(doctorService.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Doctor> read(@PathVariable Integer id) {
-		Optional<Doctor> oDoctor = doctorService.findById(id);
-		if(!oDoctor.isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
-		return ResponseEntity.ok(oDoctor.get());
+	public ResponseEntity<DoctorDTO> read(@PathVariable Integer id) {
+		return ResponseEntity.ok(doctorService.findById(id));
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Doctor> update(@RequestBody Doctor doctorDetails,@PathVariable Integer id){
-		Optional<Doctor> doctor = doctorService.findById(id);
-		if(!doctor.isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
-		doctor.get().setName(doctorDetails.getName());
-		doctor.get().setIdentificationType(doctorDetails.getIdentificationType());
-		doctor.get().setIdentification(doctorDetails.getIdentification());
-		doctor.get().setProfessionalCard(doctorDetails.getProfessionalCard());
-		doctor.get().setExperience(doctorDetails.getExperience());
-		doctor.get().setSpeciality(doctorDetails.getSpeciality());
-		doctor.get().setStartSchedule(doctorDetails.getStartSchedule());
-		doctor.get().setEndSchedule(doctorDetails.getEndSchedule());
-		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctor.get()));
+	public ResponseEntity<DoctorDTO> update(@RequestBody DoctorDTO doctorDetails,@PathVariable Integer id){
+			DoctorDTO doctor = doctorService.findById(id);
+			doctor.setName(doctorDetails.getName());
+			doctor.setIdentificationType(doctorDetails.getIdentificationType());
+			doctor.setIdentification(doctorDetails.getIdentification());
+			doctor.setProfessionalCard(doctorDetails.getProfessionalCard());
+			doctor.setExperience(doctorDetails.getExperience());
+			doctor.setSpeciality(doctorDetails.getSpeciality());
+			doctor.setStartSchedule(doctorDetails.getStartSchedule());
+			doctor.setEndSchedule(doctorDetails.getEndSchedule());
+			return ResponseEntity.ok().body(doctorService.save(doctor));
+		
 	}
 	
 	
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Object> delete (@PathVariable Integer id){
-		if(!doctorService.findById(id).isPresent()) {
-			return ResponseEntity.notFound().build();
-		}
+	public void delete (@PathVariable Integer id){
 		doctorService.deleteById(id);
-		return ResponseEntity.ok().build();
 	}
 	
 }

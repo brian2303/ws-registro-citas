@@ -2,20 +2,19 @@ package com.appointment.app.service;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import com.appointment.app.entity.Appointment;
+import com.appointment.app.dto.AppointmentDTO;
 
 @Service
 public interface AppointmentService {
 	
-	public List<Appointment> findAll();
+	public List<AppointmentDTO> findAll();
 	
-	public Optional<Appointment> findById(Integer id);
+	public AppointmentDTO findById(Integer id);
 	
-	public Appointment save(Appointment doctor);
+	public AppointmentDTO save(AppointmentDTO appointmentDTO);
 	
 	public void deleteById(Integer id);
 	

@@ -1,12 +1,14 @@
 package com.appointment.app.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.appointment.app.converter.PatientConverter;
+import com.appointment.app.dto.PatientDTO;
 import com.appointment.app.entity.Patient;
 import com.appointment.app.repository.PatientRepository;
 
@@ -15,23 +17,31 @@ public class PatientServiceImpl implements PatientService {
 	
 	@Autowired
 	private PatientRepository patientRepository;
+	@Autowired
+	PatientConverter patientConverter;
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<Patient> findAll() {
-		return patientRepository.findAll();
+	public List<PatientDTO> findAll() {
+		return patientRepository.findAll()
+				.stream()
+				.map(p -> patientConverter.fromEntity(p))
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Patient> findById(Integer id) {
-		return patientRepository.findById(id);
+	public PatientDTO findById(Integer id) {
+		Patient patient = patientRepository.findById(id).get();
+		return patientConverter.fromEntity(patient);
+		
 	}
 
 	@Override
 	@Transactional
-	public Patient save(Patient patient) {
-		return patientRepository.save(patient);
+	public PatientDTO save(PatientDTO patientDTO) {
+		Patient patient = patientRepository.save(patientConverter.fromDTO(patientDTO));
+		return patientConverter.fromEntity(patient);
 	}
 
 	@Override
