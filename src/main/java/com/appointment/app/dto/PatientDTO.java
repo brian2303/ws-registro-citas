@@ -28,5 +28,16 @@ public class PatientDTO implements Serializable {
 	private String identificationType;
 	private String affiliation;
 	private String medicalHistory;
-
+	
+	public PatientDTO(String name, String lastname, LocalDate dateOfBirth, String identification,
+			String identificationType, String affiliation, String medicalHistory) {
+		super();
+		this.name = name;
+		this.lastname = lastname;
+		this.dateOfBirth = dateOfBirth;
+		this.identification = identification;
+		this.identificationType = identificationType;
+		this.affiliation = affiliation;
+		this.medicalHistory = medicalHistory;
+	}
 }

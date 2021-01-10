@@ -69,7 +69,7 @@ public class AppointmentServiceImpl implements AppointmentService{
 			Doctor doctorSelected = doctorRepository.findById(doctor).get();
 			Integer startSchedule = Integer.parseInt(doctorSelected.getStartSchedule());
 			Integer endSchedule = Integer.parseInt(doctorSelected.getEndSchedule());
-			for(int hour = startSchedule;hour<endSchedule;hour++) {
+			for(int hour = startSchedule;hour<=endSchedule;hour++) {
 				scheduleDoctor.add(String.valueOf(hour));
 			}
 			return scheduleDoctor.stream().filter(s -> !scheduled.contains(s)).collect(Collectors.toList());

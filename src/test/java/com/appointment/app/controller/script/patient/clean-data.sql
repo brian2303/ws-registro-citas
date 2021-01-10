@@ -1,0 +1,2 @@
+DELETE FROM paciente
+DBCC CHECKIDENT (paciente, RESEED, 0)

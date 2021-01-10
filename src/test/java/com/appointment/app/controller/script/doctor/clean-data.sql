@@ -1,0 +1,2 @@
+DELETE FROM medicos;
+DBCC CHECKIDENT (medicos, RESEED, 0);

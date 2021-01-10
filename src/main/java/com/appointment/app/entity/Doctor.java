@@ -1,7 +1,6 @@
 package com.appointment.app.entity;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -48,7 +47,7 @@ public class Doctor implements Serializable {
 	private String professionalCard;
 	
 	@Column(name = "anios_experiencia",length = 45)
-	private BigDecimal experience;
+	private Integer experience;
 	
 	@Column(name = "especialidad",length = 45)
     private String speciality;

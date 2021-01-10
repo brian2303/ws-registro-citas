@@ -6,4 +6,5 @@ import org.springframework.stereotype.Repository;
 import com.appointment.app.entity.Doctor;
 
 @Repository
-public interface DoctorRepository extends JpaRepository<Doctor, Integer> {}
+public interface DoctorRepository extends JpaRepository<Doctor, Integer> {
+}

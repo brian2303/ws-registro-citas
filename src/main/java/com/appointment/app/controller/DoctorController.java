@@ -1,10 +1,10 @@
 package com.appointment.app.controller;
 
 import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +18,7 @@ import com.appointment.app.dto.DoctorDTO;
 import com.appointment.app.service.DoctorService;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/doctors")
 public class DoctorController {
 	
@@ -25,15 +26,21 @@ public class DoctorController {
 	private DoctorService doctorService;
 	
 	/**
+	 * Utilizado para crear un doctor
 	 * 
 	 * @param doctorDTO datos que seran transformados a un entity para finalmente persistir la información
 	 * @return un DoctorDTO que contiene unicamente la información necesaria para mostrar en la vista
 	 */
 	@PostMapping
 	public ResponseEntity<DoctorDTO>  create(@RequestBody DoctorDTO doctorDTO){
-		return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctorDTO)); 
+		try {			
+			return ResponseEntity.status(HttpStatus.CREATED).body(doctorService.save(doctorDTO));
+		} catch (Exception e) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}
 	}
 	/**
+	 * Utilizado para conocer la lista de doctores registrados previamente en el sistema
 	 * 
 	 * @return una lista de todos los doctores previamente transformadas a DoctorDTO
 	 * con la finalidad de devolver unicamente la información necesaria por doctor
@@ -44,6 +51,7 @@ public class DoctorController {
 	}
 	
 	/**
+	 * Utilizado para buscar un doctor en especifico por su id.
 	 * 
 	 * @param id utilizado para buscar un entity concreta
 	 * @return un DoctorDTO transformado desde el servicio
@@ -54,6 +62,7 @@ public class DoctorController {
 	}
 	
 	/**
+	 * Utilizado para actualizar la información de un doctor
 	 * 
 	 * @param doctorDetails detalles que actualizaran el entity
 	 * @param id utilizado para buscar el entity concreto a actualizar
@@ -75,12 +84,18 @@ public class DoctorController {
 	}
 	
 	/**
+	 * Utilizado para eliminar un doctor de manera univoca
+	 * identificado por su id
 	 * 
 	 * @param id utilizado para eliminar un entity concreto
 	 */
 	@DeleteMapping("/{id}")
 	public void delete (@PathVariable Integer id){
-		doctorService.deleteById(id);
+		try {
+			doctorService.deleteById(id);
+		} catch (Exception e) {
+			ResponseEntity.notFound().build();
+		}
 	}
 	
 }

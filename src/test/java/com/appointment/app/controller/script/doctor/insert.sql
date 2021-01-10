@@ -1,0 +1,2 @@
+INSERT INTO registrocitas.dbo.medicos ([hora_fin_atencion],[anios_experiencia],[identificacion],[tipo_identificacion],[nombres],[tarjeta_profesional],[especialidad],[hora_inicio_atencion]) VALUES('17',7,'518916','CC','andres perez','123-AP','optometria','11'),('20',14,'96185468','CE','andrea rojas','123-AH','pediatria','9'),('21',6,'113443','CE','andres martinez','123-QW','pediatria','11'),('18',6,'56135689','CE','danilo perez','123-WS','oftalmologia','13')
+

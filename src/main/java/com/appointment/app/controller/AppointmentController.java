@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +19,7 @@ import com.appointment.app.dto.AppointmentAvailableDTO;
 import com.appointment.app.dto.AppointmentDTO;
 import com.appointment.app.service.AppointmentService;
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("api/appointments")
 public class AppointmentController {
 	
@@ -25,10 +27,10 @@ public class AppointmentController {
 	private AppointmentService appointmentService;
 	
 	/**
+	 * Utilizado para leer todas las citas que estan agendadas en el sistema
+	 * devolviendo unicamente la información necesaria para la cita (fecha,hora,paciente y doctor)
 	 * 
-	 * @return una lista de todos las citas previamente generadas a AppointmentDTO
-	 * desde la capa de servicios con la finalidad de devolver unicamente la información 
-	 * necesaria por cita
+	 * @return una lista de todos las citas transformadas en un objeto DTO
 	 */
 	@GetMapping
 	public List<AppointmentDTO> readAll(){
@@ -36,6 +38,8 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para leer una cita en concreto usando como 
+	 * identificador su id que sera unico por cita
 	 * 
 	 * @param id utilizado para buscar un entity concreta
 	 * @return una cita transformada en un AppointmentDTO desde el servicio
@@ -47,6 +51,7 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para crear una nueva cita en el sistema 
 	 * 
 	 * @param appointment utilizado para crear un nuevo registro en la Base de datos
 	 * 			la transformación del DTO se realiza en el servicio
@@ -59,6 +64,7 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para borrar una cita
 	 * 
 	 * @param id utilizado para eliminar una entidad concreta
 	 */
@@ -68,6 +74,7 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para actualizar una cita.
 	 * 
 	 * @param appointmentDetails detalles que seran utilizados para actualizar la información
 	 * 			de una entidad.
@@ -85,11 +92,12 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para conocer el horario disponible de un doctor en una fecha determinada
 	 * 
 	 * @param appointment recibe el id del doctor y la fecha de la cita posterior seran
 	 * 			transformadas a un AppointmentAvailableDTO: esta clase contiende los atributos id y fechaCita
-	 * @return una lista con los horarios de atención disponibles para un doctor en una fecha
-	 * 			determinada
+	 * @return una lista de tipo String con los horarios de atención disponibles para un doctor 
+	 * 			en una fecha determinada
 	 */
 	@PostMapping("/available")
 	public List<String> getAvailableAppointmentsByDoctor(@RequestBody AppointmentAvailableDTO appointment){
@@ -97,6 +105,8 @@ public class AppointmentController {
 	}
 	
 	/**
+	 * Utilizado para conocer la cantidad de citas que tiene asignadas un paciente
+	 * en una fecha determinada
 	 * 
 	 * @param appointment parametro que recibe el id del paciente y la fecha de la cita
 	 * 			transformadas a un AppointmentAvailableDTO: esta clase contiende los atributos id y fechaCita

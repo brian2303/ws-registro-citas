@@ -1,0 +1,1 @@
+INSERT INTO registrocitas.dbo.paciente([eps_afiliacion],[fecha_nacimiento],[identificacion],[tipo_identificacion],[apellidos],[historia_clinica],[nombres]) VALUES ('compensar','1992-04-14','6496641','CE','perez','la mejor historia clinica','pepe'),('famisanar','1993-05-16','498416','CC','rojas','buena','rosa'),('epseps','1996-07-17','146163518','CE','perez','regular','johan')
